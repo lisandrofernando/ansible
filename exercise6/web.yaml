@@ -1,0 +1,23 @@
+---
+
+- name: Webserver setup
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Install Apache on Ubuntu
+      apt:
+        name: apache2
+        state: present
+        update_cache: yes
+
+    - name: Start the service
+      ansible.builtin.service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Copy index file
+      copy:
+         src: files/index.html
+         dest: /var/www/html/index.html
+         backup: yes
