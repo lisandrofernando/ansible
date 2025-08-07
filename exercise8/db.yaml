@@ -2,10 +2,10 @@
 - name: DBserver setup
   hosts: dbservers
   become: yes
-  vars:
-    dbname: vision
-    dbuser: pilot
-    dbpass: demopass
+    #vars:
+    #dbname: vision
+    #dbuser: pilot
+    #dbpass: demopass
   tasks:
     - name: Install MariaDB on Ubuntu
       apt:

@@ -1,0 +1,24 @@
+all:
+  hosts:
+    web01:
+      ansible_host: 172.31.83.93
+    web02:
+      ansible_host: 172.31.84.186
+    db01:
+      ansible_host: 172.31.85.72
+  children:
+    webservers:
+      hosts:
+        web01:
+        web02:
+    dbservers:
+      hosts:
+        db01:
+    dc_oregon:
+      children:
+        webservers:
+        dbservers:
+      vars:
+        ansible_user: ubuntu
+        ansible_ssh_private_key_file: /home/ansible/.ssh/id_ed25519       
+
