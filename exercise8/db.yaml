@@ -1,0 +1,45 @@
+---
+- name: DBserver setup
+  hosts: dbservers
+  become: yes
+  vars:
+    dbname: vision
+    dbuser: pilot
+    dbpass: demopass
+  tasks:
+    - name: Install MariaDB on Ubuntu
+      apt:
+        name:
+          - mariadb-server
+          - mariadb-client
+        state: present
+        update_cache: yes
+
+    - name: Install PyMQL
+      apt:
+        name:
+          - python3-mysqldb
+        state: present
+        update_cache: yes
+
+    - name: Start MariaDB  service
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Create a new database
+      mysql_db:
+            name: "{{dbname}}"
+            state: present
+
+    - name: Create database user 
+      mysql_user:
+            name: "{{dbuser}}"
+            password: "{{dbpass}}"
+            priv: '*.*:ALL'
+            state: present
+      register: result
+
+    - debug:
+         var: result
